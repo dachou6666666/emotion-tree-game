@@ -1,5 +1,7 @@
 # 共生树 · Emotion Tree Game
 
+R3F_ARCHITECTURE_CONFIRMED_2026_07_02
+
 给 ChatGPT / Codex / Cursor 看的项目说明。请以后按本文件理解当前项目结构，不要再按早期 EZ-Tree 原型路线修改。
 
 ## 项目是什么

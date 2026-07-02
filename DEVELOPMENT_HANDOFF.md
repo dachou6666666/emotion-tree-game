@@ -1,5 +1,7 @@
 # Development Handoff
 
+REMOTE_SYNC_CHECK_2026_07_02
+
 本文件用于记录每次修改的目标、涉及文件、验证结果和待审查问题，方便交给 GPT / Codex / Cursor 继续分析。
 
 ## 记录格式
@@ -19,6 +21,36 @@ npm run build 是否通过：
 - 每次记录必须写清楚：本次目标、修改了哪些文件、关键改动、`npm run build` 是否通过、当前还存在什么问题。
 - 每次完成修改后，都要提交到 Git，并推送到 GitHub 的 `origin/main`。
 - 如果因为网络、GitHub 权限、构建失败等原因无法推送，必须在最终回复里明确说明原因和当前状态。
+
+---
+
+## 2026-07-02 远端 R3F 文档同步强校验
+
+### 本次目标
+
+- 按用户要求对本地 HEAD、`origin/main` 和 GitHub raw 内容做远端强校验。
+- 在 `AGENTS.md` 顶部加入 `R3F_ARCHITECTURE_CONFIRMED_2026_07_02`。
+- 在 `DEVELOPMENT_HANDOFF.md` 顶部加入 `REMOTE_SYNC_CHECK_2026_07_02`。
+- 重新提交并推送，确保 GitHub raw 能直接看到标记。
+
+### 修改了哪些文件
+
+- `AGENTS.md`
+- `DEVELOPMENT_HANDOFF.md`
+
+### 关键改动
+
+- 为 R3F 架构文档增加明确同步确认标记，方便外部 GPT 直接通过 raw 文件判断远端内容是否更新。
+- 记录本次远端同步强校验流程，不涉及任何 UI 或业务功能修改。
+
+### npm run build 是否通过
+
+- 通过。
+- Vite 仍提示 `dist/game-scene.js` chunk 超过 500 kB，这是现有 Three.js / React Three Fiber 打包体积提示，不影响本次构建结果。
+
+### 当前还存在什么问题
+
+- 推送后还需要使用 `curl.exe -L` 直接读取 GitHub raw，再确认两个标记都能从远端 main 看到。
 
 ---
 
