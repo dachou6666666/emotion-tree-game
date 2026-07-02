@@ -22,7 +22,13 @@ Desktop.ini
 *.log
 *.tmp
 *.temp
+*.local
+*.tsbuildinfo
 .cache/
+tmp/
+temp/
+.tmp/
+coverage/
 
 # Cursor local state (keep hooks if added later)
 .cursor/projects/
@@ -30,3 +36,6 @@ Desktop.ini
 
 # Large generated assets (keep committed hero pngs under assets/)
 screenshots/
+
+# Local sync logs
+.github-sync.log

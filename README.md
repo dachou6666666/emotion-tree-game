@@ -1,63 +1,105 @@
-# 共生树
+# 共生树 Emotion Tree Game
 
-本地响应式原型，适合先验证夫妻双方“共生树 / 吐槽虫 / 日常维护 / 7 天未处理扣血”的游戏规则。
+一个本地运行的治愈系关系养成游戏原型。用户共同守护一棵 3D 共生树，用“今日照顾”“心结虫”“共同记忆果子”和“成长轨迹”来表达伴侣 / 家庭关系中的照顾、难受、回应和修复。
+
+## 当前体验
+
+- 中间是 React Three Fiber 渲染的 3D 共生树场景。
+- 左侧是今日照顾动作：给树浇水、留一束光、写一句感谢。
+- 右侧是等待被看见的心结和今日回应。
+- 底部是共同记忆果子和成长轨迹。
+- 树会根据成长值连续变大，不是阶段硬切换。
+- 心结虫会按成员颜色显示，停留太久时只做温和提醒。
+- 数据暂存在浏览器 `localStorage`，key 为 `emotion-tree-game:v1`。
+
+## 技术栈
+
+- Vanilla JavaScript：页面业务逻辑、状态保存、HTML 渲染。
+- React + TypeScript：3D 游戏场景入口。
+- three / @react-three/fiber / @react-three/drei：WebGL 场景。
+- framer-motion：HUD 动效。
+- Vite：打包 `src` 里的 3D 场景代码。
+
+## 主要文件
+
+```text
+index.html
+app.js
+styles.css
+package.json
+package-lock.json
+ASSET_LICENSES.md
+DEVELOPMENT_HANDOFF.md
+src/
+public/
+assets/
+```
+
+`dist/` 是构建输出，本地可生成，不提交到 Git。
 
 ## 本地启动
 
-在工作区根目录运行：
+安装依赖：
 
 ```powershell
+npm install
+```
+
+构建 3D 场景：
+
+```powershell
+npm run build
+```
+
+从工作区根目录启动静态服务器：
+
+```powershell
+cd ..
 python -m http.server 5174 --bind 0.0.0.0
 ```
 
-然后打开：
+打开：
 
 ```text
 http://localhost:5174/emotion-tree-game/
 ```
 
-## 当前规则
+演示账号：
 
-- 所有成员共同守护一棵共生树，初始 100 血。
-- 网站现在按游戏大厅组织：共生花园、角色形象、树形进化、任务图鉴四个玩法页。
-- 每个成员可以选择自己的 3D 角色形象：倾听者、守护者、修复师、记录者。
-- 共生树可以切换树形：生命橡树、和解柳树、花冠共生树、守望松树。
-- 每个成员都可以在共生树上写“吐槽虫”。
-- 放虫的人不能自己抓虫，需要其他成员抓走并留下回应。
-- 虫子 7 天未处理，会对共生树造成 1 点伤害。
-- 每个成员每天都可以做一次浇水、晒太阳、写感谢。
-- 全员日常维护会恢复血量，每 3 次维护长出一个果子。
-- 成熟果子可以采摘，采摘后恢复 2 点血。
-- 共生树有成长点和成长阶段。维护、抓虫回应、采摘果子都会让树慢慢长大。
-- 如果当天所有成员都至少维护一次，会获得共同生长奖励。
-- 游戏日期会按真实日期自动同步；页面打开期间也会每分钟检查一次跨天变化。
-
-## 视觉资产
-
-- 主视觉真实大树：`assets/symbiotic-tree-hero.png`
-- 登录页会使用这张图作为情绪氛围图。
-- 共生树主界面使用 Three.js + [EZ-Tree](https://github.com/dgreenheck/ez-tree)（MIT）生成带真实树皮/叶贴图的立体大树，并有风吹叶动动画。
-- 树形会切换不同 EZ-Tree 预设（橡树 / 松树 / 白杨垂枝 / 花冠色叶），成长阶段会切换 Small / Medium / Large 尺寸。
-- 成员角色会影响树下 3D 动漫人物的配色、头发、表情和配件。
-- 虫子颜色跟随放虫成员颜色，方便判断是谁放上去的。
-- 树下会显示成员人物，代表大家共同维护同一棵树。
-
-数据暂存在浏览器 localStorage 中，刷新不会丢，但换浏览器或清缓存会丢。
-
-## GitHub 自动同步（给 ChatGPT / Codex 看代码）
-
-项目已配置 Git 仓库。首次安装：
-
-1. 双击运行 `scripts/一键安装GitHub自动同步.bat`（或桌面「同步项目到GitHub」相关脚本）
-2. 按提示在浏览器登录 GitHub 并授权
-3. 脚本会自动创建私有仓库 `emotion-tree-game`，并设置每 10 分钟自动推送
-
-手动立即同步：
-
-```powershell
-powershell -File scripts/sync-to-github.ps1
+```text
+林夕 / 123456
+周晨 / 123456
 ```
 
-同步日志：`.github-sync.log`
+开发测试按钮默认隐藏。如需测试成长动画和树模型选择，在 URL 后加：
 
-给 AI 看的项目说明：`AGENTS.md`
+```text
+?dev=1
+```
+
+## 验证命令
+
+```powershell
+node --check app.js
+npx tsc --noEmit
+npm run build
+```
+
+## GitHub 推送
+
+仓库已经使用 `main` 分支。首次推送到 GitHub 时添加远程仓库：
+
+```powershell
+git remote add origin https://github.com/<your-name>/emotion-tree-game.git
+git push -u origin main
+```
+
+如果已经配置过远程仓库：
+
+```powershell
+git push
+```
+
+## 素材授权
+
+树模型来源和授权记录在 `ASSET_LICENSES.md`。提交或发布前请保留该文件。
