@@ -1,0 +1,32 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+.vite/
+
+# Local env / secrets
+.env
+.env.*
+*.pem
+*.key
+
+# OS / editor
+.DS_Store
+Thumbs.db
+Desktop.ini
+.vscode/
+.idea/
+
+# Logs / temp
+*.log
+*.tmp
+*.temp
+.cache/
+
+# Cursor local state (keep hooks if added later)
+.cursor/projects/
+.cursor/*.json
+
+# Large generated assets (keep committed hero pngs under assets/)
+screenshots/

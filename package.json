@@ -1,0 +1,28 @@
+{
+  "name": "emotion-tree-game",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "vite build",
+    "build:game": "vite build",
+    "dev:game": "vite --host 0.0.0.0"
+  },
+  "dependencies": {
+    "@react-three/drei": "^10.7.7",
+    "@react-three/fiber": "^9.6.1",
+    "framer-motion": "^12.42.2",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7",
+    "three": "^0.181.2",
+    "zustand": "^5.0.9"
+  },
+  "devDependencies": {
+    "@gltf-transform/cli": "^4.4.0",
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^6.0.3",
+    "typescript": "^5.9.3",
+    "vite": "^8.1.2"
+  }
+}
