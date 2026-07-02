@@ -43,3 +43,21 @@ http://localhost:5174/emotion-tree-game/
 - 树下会显示成员人物，代表大家共同维护同一棵树。
 
 数据暂存在浏览器 localStorage 中，刷新不会丢，但换浏览器或清缓存会丢。
+
+## GitHub 自动同步（给 ChatGPT / Codex 看代码）
+
+项目已配置 Git 仓库。首次安装：
+
+1. 双击运行 `scripts/一键安装GitHub自动同步.bat`（或桌面「同步项目到GitHub」相关脚本）
+2. 按提示在浏览器登录 GitHub 并授权
+3. 脚本会自动创建私有仓库 `emotion-tree-game`，并设置每 10 分钟自动推送
+
+手动立即同步：
+
+```powershell
+powershell -File scripts/sync-to-github.ps1
+```
+
+同步日志：`.github-sync.log`
+
+给 AI 看的项目说明：`AGENTS.md`
