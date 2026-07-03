@@ -750,7 +750,7 @@ function renderTopbarStatus(user, tree) {
         <strong>${mood.title}</strong>
         <small>${mood.body}</small>
       </div>
-      <span class="relationship-temp">${tree.hp}°</span>
+      <span class="relationship-temp">温度 ${tree.hp}</span>
     </div>
     <div class="top-actions">
       <span class="pill">${icon("user-round", "icon-sm")}守护者：${escapeHtml(user.name)}</span>
@@ -770,28 +770,28 @@ function renderApp(user, tree) {
           <div class="brand-mark">${icon("sprout")}</div>
           <div>
             <h1>${escapeHtml(tree.name)}</h1>
-            <p>我们共同守护的第 ${relationshipDay()} 天 · ${growth.stage}</p>
+            <p>共生第 ${relationshipDay()} 天 · 今日状态：${growth.stage}</p>
           </div>
         </div>
         ${renderTopbarStatus(user, tree)}
       </header>
 
-      <div class="layout relationship-layout">
-        <aside class="side-stack care-column">
+      <div class="layout relationship-layout game-hud-layout">
+        <section class="center-stage tree-focus game-world-main">
+          ${renderTreePanel(user, tree)}
+        </section>
+
+        <aside class="side-stack care-column hud-card-stack care-dock" aria-label="今日照顾动作">
           ${renderCarePanel(user, tree)}
           ${renderGuardianPanel(user, tree)}
         </aside>
 
-        <section class="center-stage tree-focus">
-          ${renderTreePanel(user, tree)}
-        </section>
-
-        <aside class="right-stack heart-column">
+        <aside class="right-stack heart-column hud-card-stack heart-drawer" aria-label="等待回应的心结">
           ${renderBugPanel(user, tree)}
           ${renderTodayResponsePanel(user, tree)}
         </aside>
 
-        <section class="bottom-memory">
+        <section class="bottom-memory memory-dock" aria-label="共同记忆果子和成长轨迹">
           ${renderFruitPanel(tree)}
           ${renderTimelinePanel()}
         </section>
@@ -894,10 +894,10 @@ function renderGuardianPanel(current, tree) {
   return `
     <section class="panel guardian-panel">
       <div class="panel-title">
-        <h2>${icon("users-round")}树下守护者</h2>
-        <button class="btn icon-only secondary" data-action="show-adopt" type="button" title="新增守护者">${icon("user-plus")}</button>
+        <h2>${icon("users-round")}树下伙伴</h2>
+        <button class="btn icon-only secondary" data-action="show-adopt" type="button" title="领养新的守护角色">${icon("user-plus")}</button>
       </div>
-      <p class="panel-whisper">${caredCount}/${state.users.length} 位守护者今天来照顾过这棵树。</p>
+      <p class="panel-whisper">${caredCount}/${state.users.length} 位伙伴今天靠近过这棵树。</p>
       <div class="guardian-list">
         ${state.users
           .map((member) => {
@@ -917,7 +917,7 @@ function renderGuardianPanel(current, tree) {
           })
           .join("")}
       </div>
-      <p class="footer-note">这是本地演示，可以轻点名字切换视角；正式版建议使用家庭邀请码和独立账号。</p>
+      <p class="footer-note">轻点名字切换视角；正式版再接入家庭邀请码和独立账号。</p>
     </section>
   `;
 }
@@ -1295,10 +1295,10 @@ function renderTreePanel(user, tree) {
           <p>${state.users.length} 人共生 · ${shape.name} · ${mood.title}</p>
         </div>
         <div class="tree-actions">
-          <span class="tag green">${icon("heart-pulse", "icon-sm")}关系温度 ${tree.hp}°</span>
-          <span class="tag green">${icon("sprout", "icon-sm")}成长 ${growth.percent}%</span>
-          <span class="tag blue">${icon("apple", "icon-sm")}${tree.fruits.filter((fruit) => !fruit.harvested).length} 个记忆果</span>
-          <span class="tag red">${icon("bug", "icon-sm")}${activeBugs(tree).length} 个心结</span>
+          <span class="tag green">${icon("heart-pulse", "icon-sm")}树的状态 ${tree.hp}</span>
+          <span class="tag green">${icon("sprout", "icon-sm")}共生生长 ${growth.percent}%</span>
+          <span class="tag blue">${icon("apple", "icon-sm")}${tree.fruits.filter((fruit) => !fruit.harvested).length} 颗记忆果</span>
+          <span class="tag red">${icon("bug", "icon-sm")}${activeBugs(tree).length} 只心结虫</span>
         </div>
       </div>
       <div class="sky-note">心结不是惩罚，它只是把没被听见的感受轻轻放在树旁，等另一个人靠近。</div>
@@ -1317,7 +1317,7 @@ function renderTreePanel(user, tree) {
         <div class="tree-scene-loading game-scene-fallback">3D 游戏场景加载中</div>
         <div class="scene-world-caption">
           <span>${icon("bug", "icon-sm")}心结虫会带着成员颜色停在树旁</span>
-          <span>${icon("apple", "icon-sm")}记忆果成熟后可以被共同采摘</span>
+          <span>${icon("apple", "icon-sm")}成熟记忆果会落进底部奖励槽</span>
         </div>
       </div>
     </section>
@@ -1376,16 +1376,16 @@ function renderCarePanel(user, tree) {
   const care = careTodayFor(user, tree);
   const maintainedToday = Object.values(care).some(Boolean);
   const actions = [
-    { key: "water", label: "给树浇水", sub: "用一个小动作让关系继续生长", icon: "droplets", cls: "leaf" },
-    { key: "sun", label: "留一束光", sub: "把今天愿意靠近的心意放进树下", icon: "sun", cls: "sky" },
-    { key: "listen", label: "写一句感谢", sub: "让被珍惜的瞬间长成记忆果", icon: "message-circle-heart", cls: "rose" },
+    { key: "water", label: "浇一捧水", sub: "让关系继续往上长一点", icon: "droplets", cls: "leaf" },
+    { key: "sun", label: "点一束光", sub: "把今天愿意靠近的心意放进树下", icon: "sun", cls: "sky" },
+    { key: "listen", label: "留一句感谢", sub: "让被珍惜的瞬间长成记忆果", icon: "message-circle-heart", cls: "rose" },
   ];
 
   return `
     <section class="panel care-ritual-panel">
       <div class="panel-title">
         <h2>${icon("hand-heart")}今日照顾</h2>
-        <small>每人每天一次</small>
+        <small>树下三选一</small>
       </div>
       <p class="panel-whisper">${maintainedToday ? "今天的照顾已经被树记住了。" : "选择一个动作就够了，不需要把关系变成任务。"}</p>
       <div class="quick-grid">
@@ -1446,16 +1446,16 @@ function renderBugPanel(user, tree) {
   return `
     <section class="panel heart-knot-panel">
       <div class="panel-title">
-        <h2>${icon("bug")}等待被看见的心结</h2>
-        <small>心结需要另一个人来回应</small>
+        <h2>${icon("bug")}树旁的心结虫</h2>
+        <small>${open.length ? `${open.length} 份感受等着被看见` : "树旁很安静"}</small>
       </div>
       <form class="form-grid" data-form="bug">
         <div class="field">
-          <label for="bugText">今天哪里有点难受</label>
+          <label for="bugText">把今天卡住的感受放在树旁</label>
           <textarea id="bugText" name="text" maxlength="180" placeholder="说具体事件，不贴标签。例如：晚饭时我说话被打断，我觉得不被重视。" required></textarea>
         </div>
         <div class="field">
-          <label for="bugNeed">我希望对方怎么回应</label>
+          <label for="bugNeed">希望对方怎样靠近</label>
           <select id="bugNeed" name="need">
             <option value="先听我说完">先听我说完</option>
             <option value="给一句道歉">给一句道歉</option>
@@ -1501,7 +1501,7 @@ function renderBugCard(bug, user) {
             : `
               <form class="reply-box" data-form="catch-bug" data-bug-id="${bug.id}">
                 <textarea name="reply" maxlength="160" placeholder="写一句具体回应：我听到了、我理解你哪里难受、我会做一个什么动作。" required></textarea>
-                <button class="btn leaf" type="submit">${icon("hand-heart")}回应这个心结</button>
+                <button class="btn leaf" type="submit">${icon("hand-heart")}回应心结</button>
               </form>
             `
       }
@@ -1512,10 +1512,10 @@ function renderBugCard(bug, user) {
 function renderFruitPanel(tree) {
   const fruits = tree.fruits.filter((fruit) => !fruit.harvested);
   return `
-    <section class="panel soft memory-fruit-panel">
+    <section class="panel soft memory-fruit-panel reward-slot-panel">
       <div class="panel-title">
-        <h2>${icon("apple")}共同记忆果子</h2>
-        <small>照顾与回应会结果</small>
+        <h2>${icon("apple")}共同记忆果</h2>
+        <small>照顾与回应留下的奖励</small>
       </div>
       <div class="fruit-list">
         ${
@@ -1528,10 +1528,10 @@ function renderFruitPanel(tree) {
                     <article class="fruit-card">
                       <div class="fruit-meta">
                         <strong>${escapeHtml(fruit.label)}</strong>
-                        <span class="tag ${ripe ? "green" : "blue"}">${ripe ? "可采摘" : `${daysLeft(fruit.matureDay)} 天后成熟`}</span>
+                        <span class="tag ${ripe ? "green" : "blue"}">${ripe ? "可以收下" : `${daysLeft(fruit.matureDay)} 天后成熟`}</span>
                       </div>
                       <div class="meter"><div class="meter-fill" style="width:${progress}%"></div></div>
-                      ${ripe ? `<button class="btn secondary" data-harvest="${fruit.id}" type="button" style="margin-top:10px">${icon("shopping-basket")}采摘记忆</button>` : ""}
+                      ${ripe ? `<button class="btn secondary" data-harvest="${fruit.id}" type="button" style="margin-top:10px">${icon("shopping-basket")}收下这颗记忆果</button>` : ""}
                     </article>
                   `;
                 })

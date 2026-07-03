@@ -3964,3 +3964,349 @@ body,
     max-height: none;
   }
 }
+
+/* Phase 1 game HUD restructuring: keep business panels, turn layout into an immersive game stage. */
+.game-hud-layout {
+  position: relative;
+  display: block;
+  width: min(1840px, 100%);
+  min-height: calc(100svh - 78px);
+  margin: 0 auto;
+  padding: 14px clamp(12px, 2vw, 28px) 134px;
+}
+
+.game-hud-layout .game-world-main {
+  position: relative;
+  z-index: 1;
+}
+
+.game-hud-layout .tree-focus .tree-panel,
+.game-hud-layout .tree-focus .tree-scene.game-scene-shell {
+  min-height: clamp(720px, calc(100svh - 128px), 980px);
+}
+
+.game-hud-layout .tree-focus .tree-scene.game-scene-shell {
+  border-radius: 30px;
+  box-shadow:
+    0 32px 90px rgba(0, 0, 0, 0.3),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.12),
+    inset 0 -60px 110px rgba(6, 22, 14, 0.3);
+}
+
+.game-hud-layout .hud-card-stack,
+.game-hud-layout .memory-dock {
+  z-index: 8;
+}
+
+.game-hud-layout .care-dock {
+  position: absolute;
+  left: clamp(20px, 2.8vw, 42px);
+  bottom: 158px;
+  width: min(390px, calc(100% - 40px));
+}
+
+.game-hud-layout .heart-drawer {
+  position: absolute;
+  top: 32px;
+  right: clamp(20px, 2.8vw, 42px);
+  width: min(390px, calc(100% - 40px));
+  max-height: calc(100svh - 220px);
+  overflow: auto;
+  padding-right: 2px;
+}
+
+.game-hud-layout .memory-dock {
+  position: absolute;
+  right: clamp(20px, 2.8vw, 42px);
+  bottom: 26px;
+  left: clamp(20px, 2.8vw, 42px);
+  display: grid;
+  grid-template-columns: minmax(300px, 0.92fr) minmax(360px, 1.08fr);
+  gap: 12px;
+  align-items: stretch;
+}
+
+.game-hud-layout .panel {
+  border: 1px solid rgba(217, 255, 198, 0.2);
+  border-radius: 20px;
+  color: #fff9e8;
+  background:
+    radial-gradient(circle at 18% 0%, rgba(228, 255, 184, 0.14), transparent 34%),
+    linear-gradient(145deg, rgba(255, 255, 255, 0.14), rgba(197, 236, 182, 0.07)),
+    rgba(7, 22, 13, 0.5);
+  box-shadow:
+    0 18px 48px rgba(0, 0, 0, 0.24),
+    inset 0 1px 0 rgba(255, 255, 255, 0.16),
+    0 0 28px rgba(161, 255, 138, 0.08);
+  backdrop-filter: blur(18px) saturate(120%);
+}
+
+.game-hud-layout .panel-title {
+  margin-bottom: 10px;
+}
+
+.game-hud-layout .panel-title h2 {
+  font-size: 15px;
+}
+
+.game-hud-layout .panel-title small {
+  color: rgba(239, 255, 222, 0.7);
+  font-weight: 800;
+}
+
+.game-hud-layout .care-ritual-panel {
+  padding: 14px;
+}
+
+.game-hud-layout .care-ritual-panel .quick-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.game-hud-layout .care-ritual-panel .care-button {
+  min-height: 96px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 13px 10px;
+  border-radius: 18px;
+  text-align: center;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.22),
+    0 10px 24px rgba(0, 0, 0, 0.18);
+}
+
+.game-hud-layout .care-ritual-panel .care-button span {
+  justify-content: center;
+  flex-direction: column;
+  gap: 7px;
+  font-size: 13px;
+}
+
+.game-hud-layout .care-ritual-panel .care-button .icon {
+  width: 22px;
+  height: 22px;
+}
+
+.game-hud-layout .care-ritual-panel .care-button small {
+  font-size: 11px;
+  line-height: 1.35;
+}
+
+.game-hud-layout .guardian-panel {
+  padding: 12px;
+}
+
+.game-hud-layout .guardian-panel .panel-title,
+.game-hud-layout .guardian-panel .footer-note,
+.game-hud-layout .guardian-panel .panel-whisper {
+  margin-bottom: 8px;
+}
+
+.game-hud-layout .guardian-list {
+  grid-template-columns: 1fr;
+  gap: 7px;
+}
+
+.game-hud-layout .guardian-row {
+  min-height: 52px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.09);
+}
+
+.game-hud-layout .heart-knot-panel {
+  padding: 14px;
+}
+
+.game-hud-layout .heart-knot-panel .form-grid {
+  display: grid;
+  gap: 8px;
+}
+
+.game-hud-layout .heart-knot-panel textarea {
+  min-height: 76px;
+  resize: vertical;
+}
+
+.game-hud-layout .heart-column .bug-list,
+.game-hud-layout .heart-column .response-list {
+  max-height: none;
+  overflow: visible;
+}
+
+.game-hud-layout .bug-card,
+.game-hud-layout .fruit-card,
+.game-hud-layout .response-card,
+.game-hud-layout .log-row {
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.1);
+  transition:
+    transform 160ms ease,
+    border-color 160ms ease,
+    background 160ms ease,
+    box-shadow 160ms ease;
+}
+
+.game-hud-layout .bug-card:hover,
+.game-hud-layout .fruit-card:hover,
+.game-hud-layout .response-card:hover,
+.game-hud-layout .log-row:hover {
+  transform: translateY(-2px);
+  border-color: rgba(215, 255, 184, 0.42);
+  background: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.18);
+}
+
+.game-hud-layout .reward-slot-panel,
+.game-hud-layout .growth-trail-panel {
+  padding: 12px;
+}
+
+.game-hud-layout .reward-slot-panel .fruit-list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(150px, 1fr));
+  gap: 10px;
+  max-height: 190px;
+}
+
+.game-hud-layout .growth-trail-panel .log-list {
+  display: grid;
+  gap: 8px;
+  max-height: 190px;
+}
+
+.game-hud-layout .fruit-card {
+  position: relative;
+  min-height: 96px;
+  padding: 13px;
+  overflow: hidden;
+}
+
+.game-hud-layout .fruit-card::after {
+  content: "";
+  position: absolute;
+  right: -22px;
+  bottom: -30px;
+  width: 86px;
+  height: 86px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 205, 89, 0.32), transparent 64%);
+  pointer-events: none;
+}
+
+.game-hud-layout .log-row {
+  padding: 10px 12px;
+}
+
+.game-hud-layout .log-row p {
+  margin: 3px 0 0;
+  font-size: 12px;
+}
+
+.game-hud-layout .scene-world-caption {
+  bottom: 154px;
+}
+
+@media (max-width: 1280px) {
+  .game-hud-layout {
+    padding-bottom: 156px;
+  }
+
+  .game-hud-layout .care-dock,
+  .game-hud-layout .heart-drawer,
+  .game-hud-layout .memory-dock {
+    position: relative;
+    inset: auto;
+    width: auto;
+    max-height: none;
+    margin-top: 12px;
+  }
+
+  .game-hud-layout .memory-dock {
+    left: auto;
+    right: auto;
+    bottom: auto;
+  }
+
+  .game-hud-layout .tree-focus .tree-panel,
+  .game-hud-layout .tree-focus .tree-scene.game-scene-shell {
+    min-height: clamp(680px, 72svh, 880px);
+  }
+}
+
+@media (max-width: 760px) {
+  .game-hud-layout {
+    min-height: auto;
+    padding: 10px 10px 18px;
+  }
+
+  .game-hud-layout .tree-focus .tree-panel,
+  .game-hud-layout .tree-focus .tree-scene.game-scene-shell {
+    min-height: 62svh;
+  }
+
+  .game-hud-layout .tree-focus .tree-scene.game-scene-shell {
+    border-radius: 22px;
+  }
+
+  .game-hud-layout .tree-focus .tree-header,
+  .game-hud-layout .tree-focus .sky-note,
+  .game-hud-layout .tree-focus .growth-status {
+    position: absolute;
+    margin: 0;
+  }
+
+  .game-hud-layout .tree-focus .tree-header {
+    top: 12px;
+    right: 12px;
+    left: 12px;
+  }
+
+  .game-hud-layout .tree-focus .tree-header h2 {
+    font-size: 20px;
+  }
+
+  .game-hud-layout .tree-focus .tree-header p,
+  .game-hud-layout .tree-focus .tree-actions .tag:nth-child(n + 3),
+  .game-hud-layout .tree-focus .sky-note {
+    display: none;
+  }
+
+  .game-hud-layout .tree-focus .growth-status {
+    right: 12px;
+    bottom: 12px;
+    left: 12px;
+    width: auto;
+  }
+
+  .game-hud-layout .care-dock,
+  .game-hud-layout .heart-drawer,
+  .game-hud-layout .memory-dock {
+    margin-top: 10px;
+  }
+
+  .game-hud-layout .care-ritual-panel .quick-grid,
+  .game-hud-layout .reward-slot-panel .fruit-list,
+  .game-hud-layout .memory-dock {
+    grid-template-columns: 1fr;
+  }
+
+  .game-hud-layout .care-ritual-panel .care-button {
+    min-height: 74px;
+    align-items: center;
+    flex-direction: row;
+    justify-content: flex-start;
+    text-align: left;
+  }
+
+  .game-hud-layout .care-ritual-panel .care-button span {
+    align-items: center;
+    flex-direction: row;
+    justify-content: flex-start;
+  }
+
+  .game-hud-layout .reward-slot-panel .fruit-list,
+  .game-hud-layout .growth-trail-panel .log-list {
+    max-height: none;
+  }
+}

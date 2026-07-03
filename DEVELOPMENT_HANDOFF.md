@@ -24,6 +24,66 @@ npm run build 是否通过：
 
 ---
 
+## 2026-07-03 第一轮体验重构：游戏 HUD 布局
+
+### 本次目标
+
+- 按下一阶段计划执行第一阶段，不新增业务功能，不优化树模型，不重写业务逻辑。
+- 让 3D 共生树成为页面绝对主视觉。
+- 将常驻三栏后台式布局改成“主 3D 场景 + 浮动游戏 HUD”。
+- 弱化左右面板的信息密度，把今日照顾、心结虫、共同记忆果改成更像游戏动作栏、任务抽屉和奖励槽。
+- 保留现有 localStorage key、成长系统、心结虫系统、记忆果系统、登录和成员切换逻辑。
+
+### 修改了哪些文件
+
+- `app.js`
+- `styles.css`
+- `index.html`
+- `DEVELOPMENT_HANDOFF.md`
+- `screenshots/hud-phase1-desktop.png`
+- `screenshots/hud-phase1-mobile.png`
+
+### 关键改动
+
+- `renderApp()` 改成 `game-hud-layout`：3D 场景先渲染为主舞台，今日照顾/成员切换放左下 HUD，心结虫和今日回应放右侧浮动抽屉，共同记忆果和成长轨迹放底部奖励槽。
+- 今日照顾保留 3 个核心动作，但文案改为“浇一捧水 / 点一束光 / 留一句感谢”，并保留每日只能正式照顾一次的现有规则。
+- 心结区域文案改为“树旁的心结虫”，回应按钮改为“回应心结”，继续使用原有 `data-form="bug"` 和 `data-form="catch-bug"` 事件绑定。
+- 共同记忆果区域改为奖励槽样式，成熟果按钮文案改为“收下这颗记忆果”，继续使用原有 `data-harvest` 规则。
+- `styles.css` 追加 Phase 1 HUD 覆盖层：桌面端以大面积 3D 场景为底，左下、右侧、底部浮动玻璃 HUD；移动端改为主场景优先、下面逐段 sheet，避免左右栏挤压 3D 场景。
+- `index.html` 更新资源 query 版本到 `20260703-hud-phase1`，避免浏览器继续使用旧 CSS/JS。
+- 开发测试按钮和树模型选择器继续只在 `?dev=1` 显示；本轮验证中普通 URL 下未出现 `.dev-tools-panel`、`.test-growth-button` 或 `.tree-model-picker`。
+
+### npm run build 是否通过
+
+- 通过。
+- 命令：`npm run build`
+- Vite 仍提示 `dist/game-scene.js` chunk 超过 500 kB，这是现有 Three.js / React Three Fiber 打包体积提示，不影响本次构建结果。
+
+### 运行与截图验证
+
+- `node --check app.js` 通过。
+- 本地服务器：`http://localhost:5174/emotion-tree-game/`
+- 已保存桌面截图：`screenshots/hud-phase1-desktop.png`
+- 已保存移动端截图：`screenshots/hud-phase1-mobile.png`
+- 浏览器自动化验证：
+  - 登录成功。
+  - 成员切换成功。
+  - 今日照顾成功，并显示“今天的照顾已经被树记住了。”
+  - 放下心结成功。
+  - 回应心结成功。
+  - 收下成熟记忆果成功。
+  - 普通 URL 下开发测试工具隐藏。
+  - 3D Canvas 存在。
+
+### 当前还存在什么问题
+
+- 这只是第一轮信息架构和 HUD 重构，右侧心结抽屉仍然承载表单和列表，后续可以继续把“选中心结详情 / 回应动作 / 心结消散反馈”更多迁到 3D 场景表现中。
+- 移动端为了不挤压 3D 场景，HUD 以纵向 sheet 呈现；下一轮可以再做真正可收起的底部抽屉。
+- 底部奖励槽目前仍显示成长轨迹列表摘要，后续可以改成更强的奖励背包 / 记忆收藏视图。
+- `dist/game-scene.js` 包体积仍较大，后续如要线上部署可再做代码分割。
+
+---
+
 ## 2026-07-02 远端 R3F 文档同步强校验
 
 ### 本次目标
